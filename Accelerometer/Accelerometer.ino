@@ -716,20 +716,11 @@ void setup()
   radio.openWritingPipe(pipe);
   
   // start message at 0
-  msg = 0;
+  msg = 5;
 }
 
 void loop()
 {
-  // send the message  
-  radio.write(&msg, 1);
-  
-  // restart messages after 255
-  if ( msg == 255 )
-    msg = 0;
-  // otherwise, increment
-  else
-    msg++;
   
   readTiltData();
 
@@ -744,9 +735,13 @@ void loop()
     digitalWrite( yLED_PIN, LOW ); }
   if (xRotation > 0) {
     digitalWrite( yLED_PIN, HIGH ); 
-    digitalWrite( xLED_PIN, LOW ); }
+    digitalWrite( xLED_PIN, LOW ); 
+    msg = 1;
+  Serial.print(msg);}
   else{
     digitalWrite (xLED_PIN, HIGH); }
+    // send the message  
+  radio.write(&msg, 1);
   // Delay so we don't swamp the serial port
   delay(1000);
 }
